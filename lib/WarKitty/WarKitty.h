@@ -1,6 +1,7 @@
 /*
-  WarKitty.h - Wardriving library for the ESP8266
-  Copyright (c) 2017 Erik Berreßem.  All right reserved.
+  Copyright (c) 2017 Erik Berreßem.  All rights reserved.
+
+  /lib/WarKitty.h
 */
 
 #ifndef WARKITTY_H
