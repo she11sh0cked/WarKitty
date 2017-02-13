@@ -1,3 +1,9 @@
+/*
+  Copyright (c) 2017 Erik Berreßem.  All rights reserved.
+
+  /lib/WarKitty.cpp
+*/
+
 #include "WarKitty.h"
 
 // PUBLIC ////////////////////
