@@ -41,6 +41,8 @@ class WarKitty
     bool __view( void );
     bool __view_verbal( void );
     String  __encryption( int _netItem );
+    String __getDate_String( TinyGPSDate _date );
+    String __getTime_String( TinyGPSTime _time );
     JsonObject& __getWiFi_Object( int _netItem, JsonBuffer& _jsonBuffer );
     JsonObject& __getGPS_Object( JsonBuffer& _jsonBuffer );
 };

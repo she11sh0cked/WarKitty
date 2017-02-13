@@ -21,6 +21,12 @@
   * Integrate GPS
   * Code VIEW-mode
   * Write dokumentation
+  * Delete option
+
+  BUG
+  * Altitude always 0
+  * GPS doesn't update fast enough
+  * Resetting after long while loop
 */
 
 #include "WarKitty.h"
@@ -28,7 +34,7 @@
 #define SWITCH 15
 #define MODE digitalRead( SWITCH ) == HIGH? SCAN : VIEW
 
-WarKitty warkitty = WarKitty( 12, 13, 9600, true, 0 );
+WarKitty warkitty = WarKitty( 12, 13, 9600, true, 1000 );
 
 void setup( void ) {
   Serial.begin( 115200 );

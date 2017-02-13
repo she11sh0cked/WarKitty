@@ -245,9 +245,11 @@ bool WarKitty::__scan_verbal( void ) {
 
   json = "";
   Root_Object.printTo( json );
+  Root_Object.prettyPrintTo( Serial );
   file.print( json );
   file.close();
   }
+
 
   return true;
 }
@@ -373,6 +375,35 @@ String  WarKitty::__encryption( int _netItem ) {
   }
 }
 
+String WarKitty::__getDate_String( TinyGPSDate _date ) {
+  String day = "";
+  String month = "";
+  String year = "";
+
+  if ( _date.day() < 10 ) day = "0";
+  day += _date.day();
+  if ( _date.month() < 10 ) month = "0";
+  month += _date.month();
+  year = _date.year();
+
+  return day + "/" + month + "/" + year;
+}
+
+String WarKitty::__getTime_String( TinyGPSTime _time ) {
+  String second = "";
+  String minute = "";
+  String hour = "";
+
+  if ( _time.second() < 10 ) second = "0";
+  second += _time.second();
+  if ( _time.minute() < 10 ) minute = "0";
+  minute += _time.minute();
+  if ( _time.hour() < 10 ) hour = "0";
+  hour += _time.hour();
+
+  return hour + ":" + minute + ":" + second;
+}
+
 JsonObject& WarKitty::__getWiFi_Object( int _netItem, JsonBuffer& _jsonBuffer ) {
   JsonObject& tmp_Object = _jsonBuffer.createObject();
   tmp_Object["ssid"] = WiFi.SSID( _netItem );
@@ -387,6 +418,10 @@ JsonObject& WarKitty::__getWiFi_Object( int _netItem, JsonBuffer& _jsonBuffer ) 
 // TODO: get gps data
 JsonObject& WarKitty::__getGPS_Object( JsonBuffer& _jsonBuffer ) {
   JsonObject& tmp_Object = _jsonBuffer.createObject();
-  tmp_Object["nmea"] = "undefined";
+  tmp_Object["altitude"] = __gps.altitude.value();
+  tmp_Object["longitude"] = __gps.location.lng();
+  tmp_Object["latitude"] = __gps.location.lat();
+  tmp_Object["date"] = __getDate_String( __gps.date );
+  tmp_Object["time"] = __getTime_String( __gps.time );
   return tmp_Object;
 }
