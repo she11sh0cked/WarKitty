@@ -10,38 +10,20 @@
 
 // CONSTRUCTOR
 
-WarKitty::WarKitty( int _gps_rx, int _gps_tx, int _gps_baud, bool _verbal, int _update_rate ) {
-  __gps_rx = _gps_rx;
-  __gps_tx = _gps_tx;
-  __gps_baud = _gps_baud;
+WarKitty::WarKitty( bool _verbal, int _update_rate ) {
   __verbal = _verbal;
   __update_rate = _update_rate;
 }
 
-WarKitty::WarKitty( int _gps_rx, int _gps_tx, int _gps_baud, bool _verbal ) {
-  __gps_rx = _gps_rx;
-  __gps_tx = _gps_tx;
-  __gps_baud = _gps_baud;
+WarKitty::WarKitty( bool _verbal ) {
   __verbal = _verbal;
   __update_rate = 0;
 }
 
-WarKitty::WarKitty( int _gps_rx, int _gps_tx, int _gps_baud, int _update_rate ) {
-  __gps_rx = _gps_rx;
-  __gps_tx = _gps_tx;
-  __gps_baud = _gps_baud;
+WarKitty::WarKitty( int _update_rate ) {
   __verbal = false;
   __update_rate = _update_rate;
 }
-
-WarKitty::WarKitty( int _gps_rx, int _gps_tx, int _gps_baud ) {
-  __gps_rx = _gps_rx;
-  __gps_tx = _gps_tx;
-  __gps_baud = _gps_baud;
-  __verbal = false;
-  __update_rate = 0;
-}
-
 
 // DECONSTRUCTOR
 
@@ -57,14 +39,6 @@ bool WarKitty::update( int _MODE ) {
   }
 
   if ( _MODE == SCAN ) {
-     SoftwareSerial gps_serial( __gps_rx, __gps_tx );
-     gps_serial.begin( __gps_baud );
-
-     while ( __gps.location.lat() == 0 ) {
-      while ( gps_serial.available() ) __gps.encode( gps_serial.read() );
-      delay(10);
-    }
-
     if ( __verbal ) return __scan_verbal()? true : false;
     else return __scan()? true : false;
     delay( __update_rate );
@@ -72,6 +46,13 @@ bool WarKitty::update( int _MODE ) {
     if ( __verbal ) return __view_verbal()? true : false;
     else return __view()? true : false;
   } else return false;
+}
+
+void WarKitty::getGPS( String _latitude, String _longitude, TinyGPSTime _time, TinyGPSDate _date ) {
+  __latitude = _latitude;
+  __longitude = _longitude;
+  __time = __getTime_String( _time );
+  __date = __getDate_String( _date );
 }
 
 // PRIVATE ///////////////////
@@ -111,6 +92,7 @@ bool WarKitty::__begin_verbal( void ) {
         return false;
       } else Serial.println( "DONE!" );
       Serial.println();
+
       return true;
 
     case VIEW:
@@ -418,10 +400,9 @@ JsonObject& WarKitty::__getWiFi_Object( int _netItem, JsonBuffer& _jsonBuffer ) 
 // TODO: get gps data
 JsonObject& WarKitty::__getGPS_Object( JsonBuffer& _jsonBuffer ) {
   JsonObject& tmp_Object = _jsonBuffer.createObject();
-  tmp_Object["altitude"] = __gps.altitude.value();
-  tmp_Object["longitude"] = __gps.location.lng();
-  tmp_Object["latitude"] = __gps.location.lat();
-  tmp_Object["date"] = __getDate_String( __gps.date );
-  tmp_Object["time"] = __getTime_String( __gps.time );
+  tmp_Object["longitude"] = __longitude;
+  tmp_Object["latitude"] = __latitude;
+  tmp_Object["date"] = __date;
+  tmp_Object["time"] = __time;
   return tmp_Object;
 }

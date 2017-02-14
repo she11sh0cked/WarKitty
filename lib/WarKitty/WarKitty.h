@@ -9,7 +9,6 @@
 
 #include "FS.h"
 #include "ESP8266WiFi.h"
-#include "SoftwareSerial.h"
 
 #include "ArduinoJson.h"
 #include "TinyGPS++.h"
@@ -17,20 +16,20 @@
 class WarKitty
 {
   public:
-    WarKitty( int gps_rx, int gps_tx, int gps_baud, bool verbal, int update_rate );
-    WarKitty( int gps_rx, int gps_tx, int gps_baud, bool verbal );
-    WarKitty( int gps_rx, int gps_tx, int gps_baud, int update_rate );
-    WarKitty( int gps_rx, int gps_tx, int gps_baud );
+    WarKitty( bool verbal, int update_rate );
+    WarKitty( bool verbal );
+    WarKitty( int update_rate );
     ~WarKitty();
     #define SCAN 0
     #define VIEW 1
     bool update( int MODE );
+    void getGPS( String latitude, String longitude, TinyGPSTime time, TinyGPSDate date );
 
   private:
-    TinyGPSPlus __gps;
-    int __gps_rx;
-    int __gps_tx;
-    int __gps_baud;
+    String __latitude;
+    String __longitude;
+    String __time;
+    String __date;
     bool __verbal;
     int __update_rate;
     int __MODE;
