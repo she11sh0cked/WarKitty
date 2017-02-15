@@ -55,6 +55,20 @@ void WarKitty::gps( String _latitude, String _longitude, TinyGPSTime _time, Tiny
   __date = __getDate_String( _date );
 }
 
+bool WarKitty::reset( void ) {
+  if ( SPIFFS.exists("DATA.LOG") ) {
+    Serial.print( "Resetting DATA.LOG.. " );
+    SPIFFS.remove( "DATA.LOG" );
+    if ( !SPIFFS.open( "DATA.LOG", "w" ) ) {
+      Serial.println( "FAILED!" );
+      return false;
+    } else Serial.println( "DONE!" );
+  } else {
+    Serial.println( "Nothing to reset.." );
+  }
+  return true;
+}
+
 // PRIVATE ///////////////////
 
 // BEGIN
@@ -146,7 +160,6 @@ bool WarKitty::__scan_verbal( void ) {
     JsonObject& GPS_Object = Data_Object.createNestedObject( "gps" );
 
     File file = SPIFFS.open( "DATA.LOG", "r" );
-
     String json = file.readString();
 
     if ( json == "" ) {
@@ -218,20 +231,21 @@ bool WarKitty::__scan_verbal( void ) {
         ++netId;
       }
     }
+
     Root_Object["count"] = netNum_file + netFound;
     Root_Object["max"] = netId;
   }
+
   file.close();
   SPIFFS.remove( "DATA.LOG" );
   file = SPIFFS.open( "DATA.LOG", "w" );
 
   json = "";
   Root_Object.printTo( json );
-  Root_Object.prettyPrintTo( Serial );
   file.print( json );
   file.close();
+  Root_Object["count"].printTo( Serial ); Serial.println( " Networks total" );
   }
-
 
   return true;
 }

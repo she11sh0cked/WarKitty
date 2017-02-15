@@ -20,10 +20,11 @@ class WarKitty
     WarKitty( bool verbal );
     WarKitty( int update_rate );
     ~WarKitty();
-    #define SCAN 0
-    #define VIEW 1
+    #define SCAN 2
+    #define VIEW 3
     bool update( int MODE );
     void gps( String latitude, String longitude, TinyGPSTime time, TinyGPSDate date );
+    bool reset( void );
 
   private:
     String __latitude;

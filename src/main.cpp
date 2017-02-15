@@ -18,13 +18,14 @@
  *  **          D8 <-  VIN   [5v] [ON]
  *
  *  TODO
- *  !* Serial display data in a more human-readable way
- *   * Code VIEW-mode
  *  !* Write dokumentation
- *  !* Delete option
+ *  !* Code VIEW-mode
+ *   * Serial display GPS-data
+ *   * Delete option in VIEW-mode
+ *   * Remove non-verbal methods in lib
  *
  *  BUG
- *  !* It's always "ADD" [files gets resettet or something?]
+ *   * Currently NONE :)
  */
 
 #include "WarKitty.h"
@@ -61,4 +62,6 @@ void loop( void ) {
 
   if ( !warkitty.update( MODE ) ) Serial.println( "FAILED!" );
   Serial.println("\nFree Heap: " + (String)ESP.getFreeHeap());
+
+  //warkitty.reset();
 }
