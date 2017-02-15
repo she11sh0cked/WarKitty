@@ -18,13 +18,12 @@
  *  **          D8 <-  VIN   [5v] [ON]
  *
  *  TODO
- *  !* Integrate GPS
+ *  !* Serial display data in a more human-readable way
  *   * Code VIEW-mode
  *  !* Write dokumentation
  *  !* Delete option
  *
  *  BUG
- *  !* GPS doesn't update correctly
  *  !* It's always "ADD" [files gets resettet or something?]
  */
 
@@ -50,12 +49,15 @@ void setup( void ) {
   delay( 3000 );
 }
 
+int prevSecond;
+
 void loop( void ) {
   while ( gps_serial.available() ) gps.encode( gps_serial.read() );
-  while ( gps.date.year() == 2000 )
+  prevSecond = gps.time.second();
+  while ( gps.location.lat() == 2000 || prevSecond == gps.time.second() )
     while ( gps_serial.available() ) gps.encode( gps_serial.read() );
 
-  warkitty.getGPS( (String)gps.location.lat(), (String)gps.location.lng(), gps.time, gps.date );
+  warkitty.gps( (String)gps.location.lat(), (String)gps.location.lng(), gps.time, gps.date );
 
   if ( !warkitty.update( MODE ) ) Serial.println( "FAILED!" );
   Serial.println("\nFree Heap: " + (String)ESP.getFreeHeap());

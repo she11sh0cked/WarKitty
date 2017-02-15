@@ -23,7 +23,7 @@ class WarKitty
     #define SCAN 0
     #define VIEW 1
     bool update( int MODE );
-    void getGPS( String latitude, String longitude, TinyGPSTime time, TinyGPSDate date );
+    void gps( String latitude, String longitude, TinyGPSTime time, TinyGPSDate date );
 
   private:
     String __latitude;

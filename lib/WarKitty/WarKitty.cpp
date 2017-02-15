@@ -48,7 +48,7 @@ bool WarKitty::update( int _MODE ) {
   } else return false;
 }
 
-void WarKitty::getGPS( String _latitude, String _longitude, TinyGPSTime _time, TinyGPSDate _date ) {
+void WarKitty::gps( String _latitude, String _longitude, TinyGPSTime _time, TinyGPSDate _date ) {
   __latitude = _latitude;
   __longitude = _longitude;
   __time = __getTime_String( _time );
