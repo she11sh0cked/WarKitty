@@ -111,6 +111,7 @@ bool WarKitty::__begin_verbal( void ) {
 
     case VIEW:
       Serial.println( "VIEW SETUP" );
+      reset();
       return true;
 
     default:

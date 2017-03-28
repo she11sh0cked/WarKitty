@@ -47,7 +47,7 @@ void setup( void ) {
   Serial.println();
 
   pinMode( SWITCH, INPUT_PULLUP );
-  delay( 3000 );
+  delay( 5000 );
 }
 
 int prevSecond;
@@ -62,6 +62,4 @@ void loop( void ) {
 
   if ( !warkitty.update( MODE ) ) Serial.println( "FAILED!" );
   Serial.println("\nFree Heap: " + (String)ESP.getFreeHeap());
-
-  //warkitty.reset();
 }
